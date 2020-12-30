@@ -28,7 +28,7 @@ namespace Pathfinding.Algorithms
             {
                 while (current.parentTile != null)
                 {
-                    current.pathTile = true;
+                    current.PathTile = true;
                     current = current.parentTile;
                     totalPath.Push(current.gameObject);
                 }
@@ -72,7 +72,7 @@ namespace Pathfinding.Algorithms
 
                 //Check neighbor of the current node
                 openSet.Remove(currentTile);
-                tileScript.closedTile = true; //  Optional
+                tileScript.ClosedTile = true; //  Optional
                 tileScript.GCost = GCost(startTile, currentTile);
                 AddNeighbors(_worldTile.allTiles, neighbors, currentTile);
 
@@ -115,7 +115,7 @@ namespace Pathfinding.Algorithms
                 if (nextTile.tileLocation.x == tileScript.tileLocation.x + 1 &&
                     nextTile.tileLocation.z == tileScript.tileLocation.z)
                 {
-                    if (tile != null && !nextTile.unwalkable)
+                    if (tile != null && !nextTile.Unwalkable)
                     {
                         neighborList.Add(tile);
                     }
@@ -131,7 +131,7 @@ namespace Pathfinding.Algorithms
                 if (nextTile.tileLocation.x == tileScript.tileLocation.x &&
                     nextTile.tileLocation.z == tileScript.tileLocation.z + 1)
                 {
-                    if (tile != null && !nextTile.unwalkable)
+                    if (tile != null && !nextTile.Unwalkable)
                     {
                         neighborList.Add(tile);
                     }
@@ -147,7 +147,7 @@ namespace Pathfinding.Algorithms
                 if (nextTile.tileLocation.x == tileScript.tileLocation.x - 1 &&
                     nextTile.tileLocation.z == tileScript.tileLocation.z)
                 {
-                    if (tile != null && !nextTile.unwalkable)
+                    if (tile != null && !nextTile.Unwalkable)
                     {
                         neighborList.Add(tile);
                     }
@@ -163,7 +163,7 @@ namespace Pathfinding.Algorithms
                 if (nextTile.tileLocation.x == tileScript.tileLocation.x &&
                     nextTile.tileLocation.z == tileScript.tileLocation.z - 1)
                 {
-                    if (tile != null && !nextTile.unwalkable)
+                    if (tile != null && !nextTile.Unwalkable)
                     {
                         neighborList.Add(tile);
                     }
@@ -205,7 +205,7 @@ namespace Pathfinding.Algorithms
             {
                 Tile tileScript = tile.GetComponent<Tile>();
 
-                if (tileScript.startTile)
+                if (tileScript.StartTile)
                 {
                     tileScript.GCost = 0;
                     tileScript.FCost = HCost(goalTile, tile);

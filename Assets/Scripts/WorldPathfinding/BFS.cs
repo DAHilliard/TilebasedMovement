@@ -46,7 +46,7 @@ namespace Pathfinding.Algorithms
             foreach (GameObject tile in world)
             {
                 Tile tileScript = tile.GetComponent<Tile>();
-                if (tileScript.startTile)
+                if (tileScript.StartTile)
                 {
                     return tileScript;
                 }
@@ -59,9 +59,9 @@ namespace Pathfinding.Algorithms
             foreach (GameObject tile in world)
             {
                 Tile tileScript = tile.GetComponent<Tile>();
-                if (tileScript.closedTile)
+                if (tileScript.ClosedTile)
                 {
-                    tileScript.closedTile = false;
+                    tileScript.ClosedTile = false;
                 }
             }
         }
@@ -80,11 +80,11 @@ namespace Pathfinding.Algorithms
                 {
                     Tile currentScript = returningList[i].GetComponent<Tile>();
 
-                    if (!currentScript.closedTile)
+                    if (!currentScript.ClosedTile)
                     {
                         // Add neighbors of the returning list to the neighbor list to be evaluated later
                         Pathfinding.Algorithms.AStar.AddNeighbors(worldTile.allTiles, neighborList, currentScript.gameObject);
-                        currentScript.closedTile = true;
+                        currentScript.ClosedTile = true;
                     }
                 }
 

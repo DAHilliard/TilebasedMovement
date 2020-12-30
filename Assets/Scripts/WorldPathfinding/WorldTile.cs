@@ -29,7 +29,9 @@ public class WorldTile : MonoBehaviour
 
     private void Update()
     {
-        FindStarting();
+        //FindStarting should be called when we start pathfinding algs.
+        if(Input.GetKeyDown(KeyCode.S))
+            FindStarting();
 
     }
 
@@ -70,11 +72,11 @@ public class WorldTile : MonoBehaviour
             {
                 if (Vector3.Distance(_player.transform.position, current.tileLocation + new Vector3(0, _cubeRadius, 0)) < _findTile)
                 {
-                    current.startTile = true;
+                    current.StartTile = true;
                 }
                 else
                 {
-                    current.startTile = false;
+                    current.StartTile = false;
                 }
             }
 

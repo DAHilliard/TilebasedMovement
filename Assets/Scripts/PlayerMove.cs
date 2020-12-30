@@ -27,9 +27,9 @@ public class PlayerMove : MonoBehaviour
         if(Physics.Raycast(ray, out hitInfo))
         {
             Tile tileInfo = hitInfo.collider.GetComponent<Tile>();
-            if(tileInfo != null && tileInfo.closedTile)
+            if(tileInfo != null && tileInfo.ClosedTile)
             {
-                tileInfo.goalTile = true;
+                tileInfo.GoalTile = true;
                 return tileInfo;
             }
         }
