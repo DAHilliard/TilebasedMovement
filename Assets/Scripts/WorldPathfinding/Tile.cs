@@ -16,11 +16,6 @@ public class Tile : MonoBehaviour
     public float HCost; // The distance betw current and goal tile
     public float FCost; // GCost + HCost
 
-    public Tile(Vector3 _tileLocation)
-    {
-        tileLocation = _tileLocation;
-    }
-
     private void Start()
     {
         tileLocation = transform.position;

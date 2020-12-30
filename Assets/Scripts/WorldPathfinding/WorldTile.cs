@@ -14,19 +14,17 @@ public class WorldTile : MonoBehaviour
 
     private float _cubeDiameter = 1.0f;
     private float _cubeRadius;
-    private float _findTile = 0.3f;
+    private float _findTile = 0.3f; // reps the V3.distance betw player/tile when determining starting tile
     private GameObject _player;
 
-    public readonly List<Tile> allTiles = new List<Tile>();
-    public readonly List<GameObject> allTilePrefabs = new List<GameObject>();
+    public readonly List<GameObject> allTiles = new List<GameObject>();
 
     private void Start()
     {
         _cubeRadius = _cubeDiameter / 2;
         _player = GameObject.Find("Player");
 
-        // CreateWorld(); //  Gizmos world
-        CreateTileWorld(); //   World with tile prefab
+        CreateWorld();
     }
 
     private void Update()
@@ -35,19 +33,20 @@ public class WorldTile : MonoBehaviour
 
     }
 
+    //Creates a Gizmos representation of the world
+    /* private void CreateWorld()
+     {
+         for(int i = 0; i < gridX - 1; i++)
+         {
+             for(int k = 0; k < gridZ - 1; k++)
+             {
+                 Tile newTile = new Tile(new Vector3(i - gridX / 2 + _cubeDiameter, transform.position.y, k - gridZ / 2 + _cubeDiameter));
+                 allTiles.Add(newTile);
+             }
+         }
+     }
+ */
     private void CreateWorld()
-    {
-        for(int i = 0; i < gridX - 1; i++)
-        {
-            for(int k = 0; k < gridZ - 1; k++)
-            {
-                Tile newTile = new Tile(new Vector3(i - gridX / 2 + _cubeDiameter, transform.position.y, k - gridZ / 2 + _cubeDiameter));
-                allTiles.Add(newTile);
-            }
-        }
-    }
-
-    private void CreateTileWorld()
     {
 
         for (int i = 0; i < gridX - 1; i++)
@@ -56,23 +55,29 @@ public class WorldTile : MonoBehaviour
             {
                 Vector3 newTileLocation = new Vector3(i - gridX / 2 + _cubeDiameter, transform.position.y, k - gridZ / 2 + _cubeDiameter);
                 GameObject newTile = Instantiate(tilePrefab, newTileLocation, Quaternion.identity, tileContainer);
-                allTilePrefabs.Add(newTile);
+                allTiles.Add(newTile);
             }
         }
     }
 
     private void FindStarting()
     {
-        foreach (Tile tile in allTiles)
+        foreach (GameObject tile in allTiles)
         {
-            if (Vector3.Distance(_player.transform.position, tile.tileLocation + new Vector3(0, _cubeRadius, 0)) < _findTile)
+            Tile current = tile.GetComponent<Tile>();
+
+            if (current != null)
             {
-                tile.startTile = true;
+                if (Vector3.Distance(_player.transform.position, current.tileLocation + new Vector3(0, _cubeRadius, 0)) < _findTile)
+                {
+                    current.startTile = true;
+                }
+                else
+                {
+                    current.startTile = false;
+                }
             }
-            else
-            {
-                tile.startTile = false;
-            }
+
         }
     }
 
@@ -84,7 +89,7 @@ public class WorldTile : MonoBehaviour
             Gizmos.color = Color.white;
             Gizmos.DrawWireCube(transform.position, new Vector3(gridX, transform.position.y, gridZ));
 
-            foreach(Tile tile in allTiles)
+            /*foreach (Tile tile in allTiles)
             {
                 if (tile.pathTile)
                 {
@@ -112,7 +117,7 @@ public class WorldTile : MonoBehaviour
                 }
 
                 Gizmos.DrawCube(tile.tileLocation, Vector3.one * minimizeCubes);
-            }
+            }*/
         }
     }
 }
