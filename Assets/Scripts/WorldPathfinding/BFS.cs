@@ -36,39 +36,41 @@ namespace Pathfinding.Algorithms
                 Tile startTile = FindStarting(worldTile.allTiles);
                 if (startTile != null)
                 {
-                    BFSAlgorithm(startTile, iterations);
+                    BFSAlgorithm(startTile.gameObject, iterations);
                 }
             }
         }
 
-        private Tile FindStarting(List<Tile> world)
+        private Tile FindStarting(List<GameObject> world)
         {
-            foreach (Tile tile in world)
+            foreach (GameObject tile in world)
             {
-                if (tile.startTile)
+                Tile tileScript = tile.GetComponent<Tile>();
+                if (tileScript.startTile)
                 {
-                    return tile;
+                    return tileScript;
                 }
             }
             return null;
         }
 
-        private void ResetClosedTiles(List<Tile> world)
+        private void ResetClosedTiles(List<GameObject> world)
         {
-            foreach (Tile tile in world)
+            foreach (GameObject tile in world)
             {
-                if (tile.closedTile)
+                Tile tileScript = tile.GetComponent<Tile>();
+                if (tileScript.closedTile)
                 {
-                    tile.closedTile = false;
+                    tileScript.closedTile = false;
                 }
             }
         }
 
-        private List<Tile> BFSAlgorithm(Tile startTile, int _iterations)
+        private List<GameObject> BFSAlgorithm(GameObject startTile, int _iterations)
         {
             ResetClosedTiles(worldTile.allTiles);
-            List<Tile> returningList = new List<Tile>();
-            List<Tile> neighborList = new List<Tile>();
+            List<GameObject> returningList = new List<GameObject>();
+            List<GameObject> neighborList = new List<GameObject>();
             int tempIterations = _iterations;
 
             returningList.Add(startTile);
@@ -76,19 +78,21 @@ namespace Pathfinding.Algorithms
             {
                 for (int i = 0; i < returningList.Count; i++)
                 {
-                    if (!returningList[i].closedTile)
+                    Tile currentScript = returningList[i].GetComponent<Tile>();
+
+                    if (!currentScript.closedTile)
                     {
                         // Add neighbors of the returning list to the neighbor list to be evaluated later
-                        Pathfinding.Algorithms.AStar.AddNeighbors(worldTile.allTiles, neighborList, returningList[i]);
-                        returningList[i].closedTile = true;
+                        Pathfinding.Algorithms.AStar.AddNeighbors(worldTile.allTiles, neighborList, currentScript.gameObject);
+                        currentScript.closedTile = true;
                     }
                 }
 
                 while (neighborList.Count > 0)
                 {
-                    Tile nextTile = neighborList.First();
+                    Tile nextScript = neighborList.First().GetComponent<Tile>();
                     neighborList.RemoveAt(0);
-                    returningList.Add(nextTile);
+                    returningList.Add(nextScript.gameObject);
                 }
                 tempIterations--;
             }
